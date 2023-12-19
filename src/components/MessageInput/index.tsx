@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useState } from 'react';
+// MessageInput.tsx
+import React, { useState, useRef, useEffect } from 'react';
 
 interface MessageInputProps {
   onSendMessage: (text: string) => void;
@@ -8,28 +7,47 @@ interface MessageInputProps {
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent the default behavior of Enter (new line)
+      handleSendMessage();
+    }
   };
 
   const handleSendMessage = () => {
     if (message.trim() !== '') {
+      console.log(message)
       onSendMessage(message);
       setMessage('');
     }
   };
 
+  // Auto-expand textarea height as content grows
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [message]);
+
   return (
-    <div className="flex p-2 fixed bottom-0 left-0 right-0">
-      <input
-        type="text"
+    <div className="flex flex-col p-2 fixed bottom-0 left-0 right-0">
+      <textarea
+        ref={textareaRef}
+        rows={1} // Start with one visible row
         placeholder="Type your message..."
         value={message}
         onChange={handleInputChange}
-        className="flex-grow p-2 border rounded-l-md dark:text-black"
+        onKeyDown={handleKeyDown}
+        className="border rounded-md p-2 resize-none dark:text-black max-h-32"
       />
-      <button onClick={handleSendMessage} className="bg-blue-500 text-white p-2 rounded-r-md">
+      <button onClick={handleSendMessage} className="mt-2 bg-blue-500 text-white p-2 rounded-md">
         Send
       </button>
     </div>
