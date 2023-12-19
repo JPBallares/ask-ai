@@ -2,14 +2,21 @@
 
 import MessageInput from "@/components/MessageInput";
 import MessageList from "@/components/MessageList";
+
 import { useState } from "react";
+import { chat } from "@/utils/openai";
+
 
 export default function Home() {
   const [messages, setMessages] = useState<{ text: string; isSender: boolean }[]>([]);
 
-  const handleSendMessage = (text: string) => {
-    setMessages([...messages, { text, isSender: true }]);
-    // You can send the message to a server or handle it as needed
+  const handleSendMessage = async (text: string) => {
+    const newMessages = [...messages, { text, isSender: true }];
+    const res = await chat("You're an expert in anything the user want you to be.", newMessages.map((message) => message.text));
+
+    if (res) {
+      setMessages([...newMessages, { text: res, isSender: false }]);
+    }
   };
 
   return (
