@@ -38,7 +38,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) 
   }, [message]);
 
   return (
-    <div className="flex flex-col p-2 fixed bottom-0 left-0 right-0">
+    <div className="flex flex-col p-2 fixed bottom-0 left-0 right-5">
       <textarea
         ref={textareaRef}
         rows={1} // Start with one visible row
