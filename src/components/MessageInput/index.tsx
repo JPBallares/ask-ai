@@ -41,7 +41,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   }, [message]);
 
   return (
-    <div className="flex flex-col p-2 fixed bottom-0 left-0 right-5">
+    <div className="flex flex-row">
       <textarea
         ref={textareaRef}
         rows={1} // Start with one visible row
@@ -49,11 +49,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        className="border rounded-md p-2 resize-none dark:text-black max-h-32"
+        className="flex-1 border rounded-md p-2 resize-none dark:text-black max-h-32"
       />
       <button
         onClick={handleSendMessage}
-        className="mt-2 bg-blue-500 text-white p-2 rounded-md"
+        className="ml-2 bg-blue-500 text-white p-2 rounded-md"
         disabled={disabled}
       >
         Send
