@@ -49,7 +49,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        className="flex-1 border rounded-md p-2 resize-none dark:text-black max-h-32"
+        className="flex-1 border rounded-md p-2 resize-none dark:text-slate-300 max-h-32 bg-slate-900 border-slate-600"
       />
       <button
         onClick={handleSendMessage}

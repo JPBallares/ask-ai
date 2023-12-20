@@ -65,8 +65,8 @@ const Message: React.FC<MessageProps> = ({ text, isSender }) => {
     <div
       className={`p-2 whitespace-pre-wrap rounded-lg border ${
         isSender
-          ? 'bg-green-500 text-white self-end'
-          : 'bg-gray-200 text-black self-start'
+          ? 'bg-green-900 border-green-800 text-slate-300 self-end'
+          : 'bg-slate-900 border-slate-800 text-slate-300 self-start'
       }`}
     >
       {renderSegments()}

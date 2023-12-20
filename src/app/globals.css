@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* For Webkit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+  /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2f2f2f;
+  /* Set the color of the scrollbar thumb (the moving part) */
+  border-radius: 6px;
+  /* Set the border radius for a rounded thumb */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #5f5f5f;
+  /* Set the color of the scrollbar track (the background) */
+}
+
+/* Optional: Set styles for the scrollbar corners (top and bottom) */
+::-webkit-scrollbar-corner {
+  background-color: #5f5f5f;
+  /* Set the color of the scrollbar corners */
+}
+
+/* Optional: Set styles for the scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+  background-color: #2f2f2f;
+  /* Set the color of the scrollbar buttons */
+}
+
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

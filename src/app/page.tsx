@@ -10,7 +10,32 @@ import Sidebar from '@/components/Sidebar';
 export default function Home() {
   const [messages, setMessages] = useState<
     { text: string; isSender: boolean }[]
-  >([]);
+  >([
+    { text: 'Hello!', isSender: false },
+    { text: 'How are you?', isSender: false },
+    { text: 'I am fine, thank you!', isSender: true },
+    { text: 'How is your day?', isSender: true },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'Hello!', isSender: false },
+    { text: 'How are you?', isSender: false },
+    { text: 'I am fine, thank you!', isSender: true },
+    { text: 'How is your day?', isSender: true },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'Hello!', isSender: false },
+    { text: 'How are you?', isSender: false },
+    { text: 'I am fine, thank you!', isSender: true },
+    { text: 'How is your day?', isSender: true },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'Hello!', isSender: false },
+    { text: 'How are you?', isSender: false },
+    { text: 'I am fine, thank you!', isSender: true },
+    { text: 'How is your day?', isSender: true },
+    { text: 'It is going well. How about yours?', isSender: false },
+    { text: 'It is going well. How about yours?', isSender: false },
+  ]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [model, setModel] = useState<IModel>(gptModelsKeys[0]);
@@ -53,17 +78,17 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="flex overflow-hidden">
+    <div className="flex overflow-hidden text-slate-500 dark:text-slate-400">
       <Sidebar></Sidebar>
       <main
-        className="flex h-screen w-full flex-col flex-wrap"
+        className="flex h-screen w-full flex-col flex-wrap bg-white dark:bg-slate-900"
         style={{ scrollBehavior: 'smooth' }}
       >
         <div className="p-2">
           <select
             value={model}
             onChange={(e) => setModel(e.target.value as IModel)}
-            className="w-full border rounded-md p-2 dark:text-black mb-2"
+            className="w-full border rounded-md p-2 mb-2 dark:text-slate-300 max-h-32 bg-slate-900 border-slate-600"
           >
             {gptModelsKeys.map((modelKey) => (
               <option key={modelKey} value={modelKey}>
@@ -72,10 +97,10 @@ export default function Home() {
             ))}
           </select>
           <textarea
-            rows={1}
+            rows={2}
             value={system}
             onChange={(e) => setSystem(e.target.value)}
-            className="w-full border rounded-md p-2 resize-none dark:text-black max-h-32"
+            className="w-full border rounded-md p-2 resize-none dark:text-slate-300 max-h-32 bg-slate-900 border-slate-600"
           />
         </div>
         <div ref={messagesContainerRef} className="flex-1 overflow-auto p-2">
