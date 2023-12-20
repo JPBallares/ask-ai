@@ -53,13 +53,13 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="flex min-h-screen overflow-hidden bg-gray-100">
+    <div className="flex overflow-hidden">
       <Sidebar></Sidebar>
       <main
-        className="flex flex-1 flex-col p-2"
+        className="flex h-screen w-full flex-col flex-wrap"
         style={{ scrollBehavior: 'smooth' }}
       >
-        <div className="max-w-5xl w-full">
+        <div className="p-2">
           <select
             value={model}
             onChange={(e) => setModel(e.target.value as IModel)}
@@ -78,13 +78,13 @@ export default function Home() {
             className="w-full border rounded-md p-2 resize-none dark:text-black max-h-32"
           />
         </div>
-        <div
-          ref={messagesContainerRef}
-          className="flex-1 overflow-auto max-w-5xl w-full"
-        >
-          <MessageList messages={messages} />
+        <div ref={messagesContainerRef} className="flex-1 overflow-auto p-2">
+          <div className="max-w-5xl w-full">
+            <MessageList messages={messages} />
+          </div>
         </div>
-        <div className="max-w-5xl w-full mt-auto">
+
+        <div className="max-w-5xl w-full p-2">
           <MessageInput
             onSendMessage={handleSendMessage}
             disabled={isLoading}
