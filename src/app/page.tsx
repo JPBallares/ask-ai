@@ -10,32 +10,7 @@ import Sidebar from '@/components/Sidebar';
 export default function Home() {
   const [messages, setMessages] = useState<
     { text: string; isSender: boolean }[]
-  >([
-    { text: 'Hello!', isSender: false },
-    { text: 'How are you?', isSender: false },
-    { text: 'I am fine, thank you!', isSender: true },
-    { text: 'How is your day?', isSender: true },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'Hello!', isSender: false },
-    { text: 'How are you?', isSender: false },
-    { text: 'I am fine, thank you!', isSender: true },
-    { text: 'How is your day?', isSender: true },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'Hello!', isSender: false },
-    { text: 'How are you?', isSender: false },
-    { text: 'I am fine, thank you!', isSender: true },
-    { text: 'How is your day?', isSender: true },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'Hello!', isSender: false },
-    { text: 'How are you?', isSender: false },
-    { text: 'I am fine, thank you!', isSender: true },
-    { text: 'How is your day?', isSender: true },
-    { text: 'It is going well. How about yours?', isSender: false },
-    { text: 'It is going well. How about yours?', isSender: false },
-  ]);
+  >([]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [model, setModel] = useState<IModel>(gptModelsKeys[0]);
