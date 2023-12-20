@@ -6,7 +6,10 @@ interface MessageInputProps {
   disabled?: boolean;
 }
 
-const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) => {
+const MessageInput: React.FC<MessageInputProps> = ({
+  onSendMessage,
+  disabled,
+}) => {
   const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,7 +51,11 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) 
         onKeyDown={handleKeyDown}
         className="border rounded-md p-2 resize-none dark:text-black max-h-32"
       />
-      <button onClick={handleSendMessage} className="mt-2 bg-blue-500 text-white p-2 rounded-md" disabled={disabled}>
+      <button
+        onClick={handleSendMessage}
+        className="mt-2 bg-blue-500 text-white p-2 rounded-md"
+        disabled={disabled}
+      >
         Send
       </button>
     </div>

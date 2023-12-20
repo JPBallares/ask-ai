@@ -36,22 +36,26 @@ const Message: React.FC<MessageProps> = ({ text, isSender }) => {
 
     if (codeMatches) {
       let currentIndex = 0;
-      return codeMatches.map((codeMatch, index) => {
-        const startIndex = text.indexOf(codeMatch, currentIndex);
-        const endIndex = startIndex + codeMatch.length;
+      return codeMatches
+        .map((codeMatch, index) => {
+          const startIndex = text.indexOf(codeMatch, currentIndex);
+          const endIndex = startIndex + codeMatch.length;
 
-        const beforeCode = text.slice(currentIndex, startIndex);
-        const match = codeMatch.match(/```([a-zA-Z]+)?\s*([\s\S]*?)```/);
-        const language = match?.[1];
-        const code = match?.[2];
+          const beforeCode = text.slice(currentIndex, startIndex);
+          const match = codeMatch.match(/```([a-zA-Z]+)?\s*([\s\S]*?)```/);
+          const language = match?.[1];
+          const code = match?.[2];
 
-        currentIndex = endIndex;
+          currentIndex = endIndex;
 
-        return [
-          <ReactMarkdown key={`before-${index}`}>{beforeCode}</ReactMarkdown>,
-          renderCodeBlock(language || 'plaintext', code || '', index),
-        ];
-      }).concat([<ReactMarkdown key="rest">{text.slice(currentIndex)}</ReactMarkdown>]);
+          return [
+            <ReactMarkdown key={`before-${index}`}>{beforeCode}</ReactMarkdown>,
+            renderCodeBlock(language || 'plaintext', code || '', index),
+          ];
+        })
+        .concat([
+          <ReactMarkdown key="rest">{text.slice(currentIndex)}</ReactMarkdown>,
+        ]);
     } else {
       return <ReactMarkdown key="text">{text}</ReactMarkdown>;
     }
@@ -59,8 +63,11 @@ const Message: React.FC<MessageProps> = ({ text, isSender }) => {
 
   return (
     <div
-      className={`p-2 whitespace-pre-wrap rounded-lg border ${isSender ? 'bg-green-500 text-white self-end' : 'bg-gray-200 text-black self-start'
-        }`}
+      className={`p-2 whitespace-pre-wrap rounded-lg border ${
+        isSender
+          ? 'bg-green-500 text-white self-end'
+          : 'bg-gray-200 text-black self-start'
+      }`}
     >
       {renderSegments()}
     </div>
