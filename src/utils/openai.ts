@@ -39,16 +39,38 @@ export class OpenAIChat {
   model: IModel;
   system: string;
   totalCosts: number;
+  temperature: number;
+  maxTokens: number;
+  topP: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
 
   /**
    * Creates an instance of OpenAIChat.
    * @param model - The model to use for chat.
    * @param system - The system message for chat.
    */
-  constructor(model: IModel, system: string) {
+  constructor(
+    model: IModel,
+    system: string,
+    temperature = 0.7,
+    maxTokens = 150,
+    topP = 1,
+    frequencyPenalty = 0.0,
+    presencePenalty = 0.6,
+  ) {
     this.model = model;
     this.system = system;
     this.totalCosts = 0;
+    this.temperature = temperature;
+    this.maxTokens = maxTokens;
+    this.topP = topP;
+    this.frequencyPenalty = frequencyPenalty;
+    this.presencePenalty = presencePenalty;
+  }
+
+  toString() {
+    return JSON.stringify(this);
   }
 
   /**
@@ -68,6 +90,11 @@ export class OpenAIChat {
         ...user_message,
       ] as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
       model: this.model,
+      temperature: this.temperature,
+      max_tokens: this.maxTokens,
+      top_p: this.topP,
+      frequency_penalty: this.frequencyPenalty,
+      presence_penalty: this.presencePenalty,
     });
     const usage = completion.usage
       ? completion.usage
