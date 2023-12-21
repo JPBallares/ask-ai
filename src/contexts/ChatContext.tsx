@@ -2,8 +2,6 @@ import { IMessage } from '@/interfaces';
 import { IModel, OpenAIChat, gptModelsKeys } from '@/utils/openai';
 import React, { createContext, useEffect, useState } from 'react';
 
-const localStorageKey = 'chatAppData';
-
 interface ChatContextProps {
   messages: IMessage[];
   model: IModel;
@@ -82,20 +80,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const storedData = localStorage.getItem(localStorageKey);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setModel(parsedData.model);
-      setSystem(parsedData.system);
-      setTemperature(parsedData.temperature);
-      setMaxTokens(parsedData.maxTokens);
-      setTopP(parsedData.topP);
-      setFrequencyPenalty(parsedData.frequencyPenalty);
-      setPresencePenalty(parsedData.presencePenalty);
-    }
-  }, []);
 
   useEffect(() => {
     if (chat) {
