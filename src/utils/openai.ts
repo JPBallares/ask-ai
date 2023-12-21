@@ -1,9 +1,26 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+export const OPENAI_API_KEY = 'OPENAI_API_KEY';
+
+export function setApiKey(apiKey: string) {
+  localStorage.setItem(OPENAI_API_KEY, apiKey);
+}
+
+export function getApiKey() {
+  return localStorage.getItem(OPENAI_API_KEY);
+}
+
+export function createOpenAi() {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    throw new Error('API key not set');
+  }
+
+  return new OpenAI({
+    apiKey,
+    dangerouslyAllowBrowser: true,
+  });
+}
 
 export const gptModels = {
   'gpt-4-1106-preview': {
@@ -36,6 +53,7 @@ export type IModel = keyof typeof gptModels;
  * Represents a chat interface for OpenAI.
  */
 export class OpenAIChat {
+  openai = createOpenAi();
   model: IModel;
   system: string;
   totalCosts: number;
@@ -84,7 +102,7 @@ export class OpenAIChat {
       role: index % 2 ? 'assistant' : 'user',
       content: message,
     }));
-    const completion = await openai.chat.completions.create({
+    const completion = await this.openai.chat.completions.create({
       messages: [
         system_message,
         ...user_message,

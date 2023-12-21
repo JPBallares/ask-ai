@@ -1,13 +1,23 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import Sidebar from '../Sidebar';
+// import Sidebar from '../Sidebar';
 import { ChatContext } from '@/contexts/ChatContext';
 import MessageList from '../MessageList';
 import MessageInput from '../MessageInput';
 import ConfigurationBar from '../ConfigurationBar';
+import { getApiKey, setApiKey } from '@/utils/openai';
 
 const Main: React.FC = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { messages, isLoading, handleSendMessage } = useContext(ChatContext);
+
+  useEffect(() => {
+    // Prompt the user to enter the OpenAI API key
+    if (getApiKey()) return; // API key already set (in local storage
+
+    const apiKey = window.prompt('Please enter your OpenAI API key:');
+
+    if (apiKey) setApiKey(apiKey);
+  }, []);
 
   useEffect(() => {
     // Scroll to the bottom with a small delay
@@ -23,7 +33,7 @@ const Main: React.FC = () => {
 
   return (
     <div className="flex overflow-hidden text-slate-500 dark:text-slate-400">
-      <Sidebar></Sidebar>
+      {/* <Sidebar></Sidebar> */}
       <main
         className="flex h-screen w-full flex-col flex-wrap bg-white dark:bg-slate-900"
         style={{ scrollBehavior: 'smooth' }}
