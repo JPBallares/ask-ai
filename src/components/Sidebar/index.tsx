@@ -1,6 +1,6 @@
 export default function Sidebar() {
   return (
-    <div className="sidebar-wrapper w-1/4 p-4">
+    <div className="sidebar-wrapper w-64 p-4">
       <nav>
         <ul>
           <li className="dark:text-white p-3">Item 1</li>
