@@ -21,7 +21,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-row mb-2">
+      <div className="flex flex-row">
         <label
           htmlFor={id}
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -39,7 +39,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
         min={min}
         max={max}
         step={step}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mb-2"
         onChange={onChange}
       />
     </>
