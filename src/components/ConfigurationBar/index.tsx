@@ -12,6 +12,7 @@ const ConfigurationBar: React.FC = () => {
     topP,
     frequencyPenalty,
     presencePenalty,
+    chat,
     setModel,
     setSystem,
     setTemperature,
@@ -23,6 +24,13 @@ const ConfigurationBar: React.FC = () => {
   return (
     <div className="flex flex-col w-64 p-2">
       <div className="flex-1 flex flex-col">
+        <div className="w-full mb-2">
+          {chat && (
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
+              Total costs: {chat.totalCosts}
+            </span>
+          )}
+        </div>
         <select
           value={model}
           onChange={(e) => setModel(e.target.value as IModel)}
