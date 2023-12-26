@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef } from 'react';
-// import Sidebar from '../Sidebar';
 import { ChatContext } from '@/contexts/ChatContext';
-import MessageList from '../MessageList';
-import MessageInput from '../MessageInput';
-import ConfigurationBar from '../ConfigurationBar';
+import MessageList from '../../components/MessageList';
+import MessageInput from '../../components/MessageInput';
+import ConfigurationBar from '../../components/ConfigurationBar';
 import { getApiKey, setApiKey } from '@/utils/openai';
 
 const Main: React.FC = () => {
@@ -33,7 +32,6 @@ const Main: React.FC = () => {
 
   return (
     <div className="flex overflow-hidden text-slate-500 dark:text-slate-400">
-      {/* <Sidebar></Sidebar> */}
       <main
         className="flex h-screen w-full flex-col flex-wrap bg-white dark:bg-slate-900"
         style={{ scrollBehavior: 'smooth' }}

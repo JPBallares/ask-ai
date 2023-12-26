@@ -1,12 +1,12 @@
 'use client';
 
 import { ChatProvider } from '@/contexts/ChatContext';
-import Main from '@/containers/ChatContainer';
+import ImageContainer from '@/containers/ImageContainer';
 
-export default function Chat() {
+export default function Image() {
   return (
     <ChatProvider>
-      <Main />
+      <ImageContainer />
     </ChatProvider>
   );
 }
