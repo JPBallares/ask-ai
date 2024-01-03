@@ -38,7 +38,8 @@ const Main: React.FC = () => {
       >
         <div
           ref={messagesContainerRef}
-          className="flex-1 flex flex-row overflow-auto p-2"
+          className="flex-1 flex flex-row p-2"
+          style={{ overflow: 'auto' }}
         >
           <div className="flex-1 ">
             <MessageList messages={messages} />
