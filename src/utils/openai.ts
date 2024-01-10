@@ -1,6 +1,8 @@
+import { IMessage } from '@/interfaces';
 import OpenAI from 'openai';
 
 export const OPENAI_API_KEY = 'OPENAI_API_KEY';
+export const CHAT_MESSAGES = 'CHAT_MESSAGES';
 
 export function setApiKey(apiKey: string) {
   localStorage.setItem(OPENAI_API_KEY, apiKey);
@@ -8,6 +10,22 @@ export function setApiKey(apiKey: string) {
 
 export function getApiKey() {
   return localStorage.getItem(OPENAI_API_KEY);
+}
+
+export function setChatMessages(chatMessages: IMessage[]) {
+  localStorage.setItem(CHAT_MESSAGES, JSON.stringify(chatMessages));
+}
+
+export function getChatMessages(): IMessage[] {
+  const chatMessages = localStorage.getItem(CHAT_MESSAGES);
+  if (chatMessages) {
+    return JSON.parse(chatMessages);
+  }
+  return [];
+}
+
+export function clearChatMessages() {
+  localStorage.removeItem(CHAT_MESSAGES);
 }
 
 export function createOpenAi() {

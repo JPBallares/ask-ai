@@ -1,6 +1,17 @@
 import { IMessage } from '@/interfaces';
-import { IModel, OpenAIChat, gptModelsKeys } from '@/utils/openai';
-import React, { createContext, useEffect, useState } from 'react';
+import {
+  IModel,
+  OpenAIChat,
+  getChatMessages,
+  gptModelsKeys,
+  setChatMessages,
+} from '@/utils/openai';
+import React, {
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 interface ChatContextProps {
   messages: IMessage[];
@@ -62,7 +73,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     "You're a senior developer at a company. You're assigned to work with the user as a pair programming partner.",
   );
   const [temperature, setTemperature] = useState<number>(0.7);
-  const [maxTokens, setMaxTokens] = useState<number>(150);
+  const [maxTokens, setMaxTokens] = useState<number>(1000);
   const [topP, setTopP] = useState<number>(1);
   const [frequencyPenalty, setFrequencyPenalty] = useState<number>(0);
   const [presencePenalty, setPresencePenalty] = useState<number>(0);
@@ -77,9 +88,17 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     const res = await chat?.send(newMessages.map((message) => message.text));
     if (res) {
       setMessages([...newMessages, { text: res, isSender: false }]);
+      setChatMessages([...newMessages, { text: res, isSender: false }]);
       setIsLoading(false);
     }
   };
+
+  useLayoutEffect(() => {
+    const messages = getChatMessages();
+    if (messages) {
+      setMessages(messages);
+    }
+  }, []);
 
   useEffect(() => {
     if (chat) {
