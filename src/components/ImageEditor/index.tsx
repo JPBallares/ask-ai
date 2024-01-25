@@ -1,11 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 
 import ImageUploader from '../ImageUploader';
 import RangeSlider from '../RangeSlider';
+import { ChatContext } from '@/contexts/ChatContext';
+import { dataType64toFile, getBase64 } from '@/utils/images';
 
 interface ImageEditorProps {}
 
 const ImageEditor: React.FC<ImageEditorProps> = () => {
+  const { chat } = useContext(ChatContext);
   const [image, setImage] = useState<string | null>(null);
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const [brushSize, setBrushSize] = useState<number>(20);
@@ -96,14 +99,25 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
     }
   };
 
-  const saveAsPNG = () => {
+  const saveAsPNG = async () => {
     if (canvasRef.current) {
       // Get the data URL of the canvas in 'image/png' format (default)
-      const dataURL = canvasRef.current.toDataURL('image/png');
+      if (!image) return;
+      const mask = canvasRef.current.toDataURL('image/png');
+      const imageFile = dataType64toFile(getBase64(image), 'image');
+      const maskFile = dataType64toFile(getBase64(mask), 'mask');
+
+      const generated = await chat?.editImage(
+        imageFile,
+        maskFile,
+        'A cat',
+        '512x512',
+        'dall-e-2',
+      );
 
       // Create an anchor element and set the href to the data URL
       const link = document.createElement('a');
-      link.href = dataURL;
+      link.href = generated as string;
 
       // Set the download attribute with a default file name
       link.download = 'edited-image.png';

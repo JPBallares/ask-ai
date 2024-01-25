@@ -1,5 +1,6 @@
 import { IMessage } from '@/interfaces';
 import OpenAI from 'openai';
+import { Uploadable } from 'openai/uploads.mjs';
 
 export const OPENAI_API_KEY = 'OPENAI_API_KEY';
 export const CHAT_MESSAGES = 'CHAT_MESSAGES';
@@ -153,5 +154,25 @@ export class OpenAIChat {
       gptModels[this.model].inputCost * (prompt_tokens / 1000) +
       gptModels[this.model].outputCost * (completion_tokens / 1000)
     );
+  }
+
+  async editImage(
+    image: Uploadable,
+    mask: Uploadable,
+    prompt: string,
+    size: '256x256' | '512x512' | '1024x1024' | null,
+    model: string,
+  ): Promise<string | undefined> {
+    if (!this.openai) return;
+    const response = await this.openai.images.edit({
+      image,
+      mask,
+      model,
+      prompt,
+      n: 1,
+      size,
+      response_format: 'b64_json',
+    });
+    return `data:image/png;base64,${response.data[0].b64_json}`;
   }
 }
