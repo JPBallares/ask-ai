@@ -51,6 +51,7 @@ const Main: React.FC = () => {
           <MessageInput
             onSendMessage={handleSendMessage}
             disabled={isLoading}
+            showClearButton={messages.length > 0}
           />
         </div>
       </main>

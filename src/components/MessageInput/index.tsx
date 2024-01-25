@@ -6,11 +6,13 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 interface MessageInputProps {
   onSendMessage: (text: string) => void;
   disabled?: boolean;
+  showClearButton?: boolean;
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({
   onSendMessage,
   disabled,
+  showClearButton,
 }) => {
   const { setMessages } = useContext(ChatContext);
   const [message, setMessage] = useState('');
@@ -50,12 +52,14 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   return (
     <div className="flex flex-row">
-      <button
-        className="ml-2 bg-blue-500 text-white p-2 mr-2 rounded-md"
-        onClick={handleClearMessage}
-      >
-        Clear messages
-      </button>
+      {showClearButton && (
+        <button
+          className="ml-2 bg-blue-500 text-white p-2 mr-2 rounded-md"
+          onClick={handleClearMessage}
+        >
+          Clear messages
+        </button>
+      )}
       <textarea
         ref={textareaRef}
         rows={1} // Start with one visible row

@@ -10,9 +10,12 @@ interface ImageEditorProps {}
 const ImageEditor: React.FC<ImageEditorProps> = () => {
   const { chat } = useContext(ChatContext);
   const [image, setImage] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState<string>('');
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const [brushSize, setBrushSize] = useState<number>(20);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   let lastX: number | undefined;
   let lastY: number | undefined;
 
@@ -45,6 +48,10 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
       }
     }
   }, [image]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPrompt(e.target.value);
+  };
 
   const startErasing = () => {
     setIsErasing(true);
@@ -82,7 +89,7 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
     }
   };
 
-  const clearCanvas = () => {
+  const clearCanvas = async () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -90,28 +97,33 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Optionally, re-draw the original image
         const img = new Image();
-        img.onload = () => {
-          ctx.globalCompositeOperation = 'source-over';
-          ctx.drawImage(img, 0, 0);
-        };
         img.src = image as string;
+
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(img, 0, 0);
       }
     }
   };
 
   const saveAsPNG = async () => {
     if (canvasRef.current) {
-      if (!image) return;
-
       // Get the data URL of the canvas in 'image/png' format (default)
       const mask = canvasRef.current.toDataURL('image/png');
-      const imageFile = dataType64toFile(getBase64(image), 'image');
       const maskFile = dataType64toFile(getBase64(mask), 'mask');
+
+      await clearCanvas();
+      const image = canvasRef.current.toDataURL('image/png');
+      const imageFile = dataType64toFile(getBase64(image), 'image');
 
       const generated = await chat?.editImage(
         imageFile,
         maskFile,
-        'A cat',
+        prompt,
         '512x512',
       );
 
@@ -162,11 +174,21 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
           Save as PNG
         </button>
       </div>
+      <div className="flex mb-2">
+        <textarea
+          ref={textareaRef}
+          rows={1} // Start with one visible row
+          placeholder="A cat smiling"
+          value={prompt}
+          onChange={handleInputChange}
+          className="flex-1 border rounded-md p-2 resize-none dark:text-slate-300 max-h-32 bg-slate-900 border-slate-600"
+        />
+      </div>
       {image ? (
         <canvas
           ref={canvasRef}
-          width={800}
-          height={600}
+          width={512}
+          height={512}
           onMouseDown={startErasing}
           onMouseUp={stopErasing}
           onMouseOut={stopErasing}
