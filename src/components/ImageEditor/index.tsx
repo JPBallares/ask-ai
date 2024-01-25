@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 import ImageUploader from '../ImageUploader';
+import RangeSlider from '../RangeSlider';
 
 interface ImageEditorProps {}
 
 const ImageEditor: React.FC<ImageEditorProps> = () => {
   const [image, setImage] = useState<string | null>(null);
   const [isErasing, setIsErasing] = useState<boolean>(false);
+  const [brushSize, setBrushSize] = useState<number>(20);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   let lastX: number | undefined;
   let lastY: number | undefined;
@@ -64,7 +66,7 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
         if (lastX !== undefined && lastY !== undefined) {
           ctx.beginPath();
           ctx.globalCompositeOperation = 'destination-out';
-          ctx.lineWidth = 20; // Width of the eraser
+          ctx.lineWidth = brushSize; // Width of the eraser
           ctx.lineCap = 'round';
           ctx.moveTo(lastX, lastY);
           ctx.lineTo(x, y);
@@ -118,19 +120,34 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
   };
 
   return (
-    <div>
-      <button
-        className="ml-2 bg-blue-500 text-white p-2 rounded-md"
-        onClick={clearCanvas}
-      >
-        Clear
-      </button>
-      <button
-        className="ml-2 bg-blue-500 text-white p-2 rounded-md"
-        onClick={saveAsPNG}
-      >
-        Save as PNG
-      </button>
+    <div className="p-1">
+      <div className="flex my-2 justify-end">
+        <div className="flex flex-1 flex-col p-2">
+          <RangeSlider
+            id="brush-size"
+            label="brush size"
+            value={brushSize}
+            min={0}
+            max={500}
+            step={1}
+            onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
+              setBrushSize(parseInt(e.target.value));
+            }}
+          />
+        </div>
+        <button
+          className="mr-2 bg-blue-500 text-white p-2 rounded-md"
+          onClick={clearCanvas}
+        >
+          Clear
+        </button>
+        <button
+          className="mr-2 bg-blue-500 text-white p-2 rounded-md"
+          onClick={saveAsPNG}
+        >
+          Save as PNG
+        </button>
+      </div>
       {image ? (
         <canvas
           ref={canvasRef}
