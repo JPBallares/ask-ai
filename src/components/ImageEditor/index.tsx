@@ -101,8 +101,9 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
 
   const saveAsPNG = async () => {
     if (canvasRef.current) {
-      // Get the data URL of the canvas in 'image/png' format (default)
       if (!image) return;
+
+      // Get the data URL of the canvas in 'image/png' format (default)
       const mask = canvasRef.current.toDataURL('image/png');
       const imageFile = dataType64toFile(getBase64(image), 'image');
       const maskFile = dataType64toFile(getBase64(mask), 'mask');
@@ -112,7 +113,6 @@ const ImageEditor: React.FC<ImageEditorProps> = () => {
         maskFile,
         'A cat',
         '512x512',
-        'dall-e-2',
       );
 
       // Create an anchor element and set the href to the data URL

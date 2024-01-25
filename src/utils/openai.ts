@@ -160,8 +160,8 @@ export class OpenAIChat {
     image: Uploadable,
     mask: Uploadable,
     prompt: string,
-    size: '256x256' | '512x512' | '1024x1024' | null,
-    model: string,
+    size: '256x256' | '512x512' | '1024x1024' | null = '512x512',
+    model: string = 'dall-e-2',
   ): Promise<string | undefined> {
     if (!this.openai) return;
     const response = await this.openai.images.edit({
